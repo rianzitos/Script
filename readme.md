@@ -37,4 +37,12 @@ Para executar o script, basta abrir o terminal do VS Code e executar o comando:
 
 .\criar-projeto.ps1
 
-**Tenha em mente que projetos Frond-end são criados na Área de Trabalho, enquanto projetos CRUD MVC são criados dentro de xampp/htdocs, caso não esteja funcionando, verifique isso**
+**Tenha em mente que projetos Frond-end são criados na Área de Trabalho, enquanto projetos CRUD MVC são criados dentro de xampp/htdocs**
+
+Além disso, caso após a execução do código aparecer um erro tipo: "Set-ExecutionPolicy -Scope CurrentUser RemoteSigned", execute a seguinte linha
+
+**Set-ExecutionPolicy -Scope CurrentUser RemoteSigned**
+
+É isso, aproveite a estrutura de pastas e arquivos criada automaticamente, considere dar uma estrela :)
+
+---
