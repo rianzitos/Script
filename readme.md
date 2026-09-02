@@ -30,3 +30,11 @@ Atualmente, existem duas opções:
 - **XAMPP**
 
 ---
+
+## Como executar
+
+Para executar o script, basta abrir o terminal do VS Code e executar o comando: 
+
+.\criar-projeto.ps1
+
+**Tenha em mente que projetos Frond-end são criados na Área de Trabalho, enquanto projetos CRUD MVC são criados dentro de xampp/htdocs, caso não esteja funcionando, verifique isso**
