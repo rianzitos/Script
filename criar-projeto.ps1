@@ -19,56 +19,72 @@ Write-Host ""
 
 $tipo = Read-Host "Digite a opcao"
 
-# Cria a pasta principal
+
+# ==========================================
+# CAMINHOS
+# ==========================================
+
+# Área de Trabalho
 $desktop = [Environment]::GetFolderPath("Desktop")
 
-New-Item -ItemType Directory -Path "$desktop\$nome" -Force | Out-Null
+# Pasta htdocs do XAMPP
+$htdocs = "C:\xampp\htdocs"
 
-Set-Location "$desktop\$nome"
 
-switch ($tipo) {
+# ==========================================
+# FRONT-END
+# ==========================================
 
-    # ==========================================
-    # FRONT-END
-    # ==========================================
+if ($tipo -eq "1") {
 
-    "1" {
+    Write-Host ""
+    Write-Host "Criando projeto Front-end na Área de Trabalho..."
+    Write-Host ""
 
-        Write-Host ""
-        Write-Host "Criando projeto Front-end..."
+    $caminhoProjeto = "$desktop\$nome"
 
-        # Pastas
-        $pastas = @(
-            "css",
-            "js",
-            "assets",
-            "assets/img",
-            "assets/icons",
-            "pages"
-        )
+    # Cria pasta principal
+    New-Item -ItemType Directory -Path $caminhoProjeto -Force | Out-Null
 
-        foreach ($pasta in $pastas) {
-            New-Item -ItemType Directory -Path $pasta -Force | Out-Null
-        }
+    Set-Location $caminhoProjeto
 
-        # Arquivos
-        New-Item index.html -ItemType File | Out-Null
-        New-Item css/style.css -ItemType File | Out-Null
-        New-Item js/script.js -ItemType File | Out-Null
-        New-Item README.md -ItemType File | Out-Null
+    # Pastas
+    $pastas = @(
+        "css",
+        "js",
+        "assets",
+        "assets/img",
+        "assets/icons",
+        "pages"
+    )
 
-        # HTML inicial
-        @"
+    foreach ($pasta in $pastas) {
+        New-Item -ItemType Directory -Path $pasta -Force | Out-Null
+    }
+
+    # Arquivos
+    New-Item index.html -ItemType File | Out-Null
+    New-Item css/style.css -ItemType File | Out-Null
+    New-Item js/script.js -ItemType File | Out-Null
+    New-Item README.md -ItemType File | Out-Null
+
+
+    # HTML inicial
+    @"
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>$nome</title>
 
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
@@ -82,8 +98,9 @@ switch ($tipo) {
 </html>
 "@ | Set-Content index.html
 
-        # CSS inicial
-        @"
+
+    # CSS inicial
+    @"
 * {
     margin: 0;
     padding: 0;
@@ -95,64 +112,137 @@ body {
 }
 "@ | Set-Content css/style.css
 
-        # JS inicial
-        @"
+
+    # JS inicial
+    @"
 // JavaScript do projeto
 
 console.log("$nome iniciado!");
 "@ | Set-Content js/script.js
 
+
+    Write-Host "===================================="
+    Write-Host " Projeto Front-end criado!"
+    Write-Host " Local: $caminhoProjeto"
+    Write-Host "===================================="
+}
+
+
+# ==========================================
+# CRUD MVC PHP
+# ==========================================
+
+elseif ($tipo -eq "2") {
+
+    Write-Host ""
+    Write-Host "Criando projeto CRUD MVC no XAMPP..."
+    Write-Host ""
+
+    # Verifica se o XAMPP existe
+    if (!(Test-Path $htdocs)) {
+
         Write-Host ""
-        Write-Host "Projeto Front-end criado com sucesso!"
+        Write-Host "ERRO: A pasta do XAMPP nao foi encontrada!"
+        Write-Host ""
+        Write-Host "Caminho procurado:"
+        Write-Host $htdocs
+        Write-Host ""
+
+        Read-Host "Pressione ENTER para sair"
+
+        exit
+    }
+
+
+    $caminhoProjeto = "$htdocs\$nome"
+
+    # Cria pasta principal
+    New-Item -ItemType Directory -Path $caminhoProjeto -Force | Out-Null
+
+    Set-Location $caminhoProjeto
+
+
+    # ==========================================
+    # PASTAS
+    # ==========================================
+
+    $pastas = @(
+
+        "app",
+
+        "app/controllers",
+
+        "app/models",
+
+        "app/views",
+
+        "app/views/layouts",
+
+        "app/views/pages",
+
+        "app/config",
+
+        "public",
+
+        "public/css",
+
+        "public/js",
+
+        "public/img",
+
+        "routes",
+
+        "database"
+
+    )
+
+
+    foreach ($pasta in $pastas) {
+
+        New-Item `
+            -ItemType Directory `
+            -Path $pasta `
+            -Force | Out-Null
     }
 
 
     # ==========================================
-    # CRUD MVC PHP
+    # ARQUIVOS
     # ==========================================
 
-    "2" {
+    $arquivos = @(
 
-        Write-Host ""
-        Write-Host "Criando projeto CRUD MVC..."
+        "public/index.php",
 
-        $pastas = @(
-            "app",
-            "app/controllers",
-            "app/models",
-            "app/views",
-            "app/views/layouts",
-            "app/views/pages",
-            "app/config",
-            "public",
-            "public/css",
-            "public/js",
-            "public/img",
-            "routes",
-            "database"
-        )
+        "public/css/style.css",
 
-        foreach ($pasta in $pastas) {
-            New-Item -ItemType Directory -Path $pasta -Force | Out-Null
-        }
+        "public/js/script.js",
 
-        # Arquivos
-        $arquivos = @(
-            "public/index.php",
-            "public/css/style.css",
-            "public/js/script.js",
-            "app/config/database.php",
-            "routes/web.php",
-            "database/database.sql",
-            "README.md"
-        )
+        "app/config/database.php",
 
-        foreach ($arquivo in $arquivos) {
-            New-Item $arquivo -ItemType File | Out-Null
-        }
+        "routes/web.php",
 
-        # index.php
-        @"
+        "database/database.sql",
+
+        "README.md"
+
+    )
+
+
+    foreach ($arquivo in $arquivos) {
+
+        New-Item `
+            -ItemType File `
+            -Path $arquivo `
+            -Force | Out-Null
+    }
+
+
+    # ==========================================
+    # INDEX.PHP
+    # ==========================================
+
+    @"
 <?php
 
 echo "Projeto $nome funcionando!";
@@ -160,8 +250,12 @@ echo "Projeto $nome funcionando!";
 ?>
 "@ | Set-Content public/index.php
 
-        # Conexão PDO
-        @"
+
+    # ==========================================
+    # DATABASE.PHP
+    # ==========================================
+
+    @"
 <?php
 
 \$host = "localhost";
@@ -191,25 +285,31 @@ try {
 ?>
 "@ | Set-Content app/config/database.php
 
-        Write-Host ""
-        Write-Host "Projeto CRUD MVC criado com sucesso!"
-    }
 
+    # ==========================================
+    # MENSAGEM FINAL
+    # ==========================================
 
-
-
-    default {
-
-        Write-Host ""
-        Write-Host "Opcao invalida!"
-    }
+    Write-Host ""
+    Write-Host "===================================="
+    Write-Host " CRUD MVC criado com sucesso!"
+    Write-Host ""
+    Write-Host " Local:"
+    Write-Host $caminhoProjeto
+    Write-Host "===================================="
 }
 
-Write-Host ""
-Write-Host "===================================="
-Write-Host " Projeto criado em:"
-Write-Host (Get-Location)
-Write-Host "===================================="
-Write-Host ""
 
+# ==========================================
+# OPÇÃO INVÁLIDA
+# ==========================================
+
+else {
+
+    Write-Host ""
+    Write-Host "Opcao invalida!"
+}
+
+
+Write-Host ""
 Read-Host "Pressione ENTER para sair"
