@@ -205,12 +205,14 @@ function New-ProjetoFrontend {
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@@NOME@@">
     <title>@@NOME@@</title>
 @@HEAD@@
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
